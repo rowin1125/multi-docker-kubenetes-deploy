@@ -28,7 +28,7 @@ jobs:
 
     steps:
     - name: Running deploy script
-      run:  ./.github/publish-images.sh
+      run:  ${GITHUB_WORKSPACE}/.github/publish-images.sh
 
 
   setup-and-deploy:
