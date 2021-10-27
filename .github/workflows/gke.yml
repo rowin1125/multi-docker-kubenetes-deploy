@@ -12,6 +12,14 @@ env:
   # DEPLOYMENT_NAME: gke-hello-app # TODO: update deployment name if changed in deployment.yaml
 
 jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: build dockerfile
+      run: docker build -t rowin1125/react-test -f ./client/Dockerfile.dev ./client
+    - name: Run tests
+      run: docker run -e CI=true rowin1125/react-test npm test
+
   setup-and-deploy:
     name: Setup and Deploy
     runs-on: ubuntu-latest
