@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: multi-k8s    # TODO: update to cluster name
+  GKE_CLUSTER: multi-cluster    # TODO: update to cluster name
   GKE_ZONE: europe-west4-a	   # TODO: update to cluster zone
   # DEPLOYMENT_NAME: gke-hello-app # TODO: update deployment name if changed in deployment.yaml
 
