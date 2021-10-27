@@ -21,6 +21,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: go inside folder
+        run: cd client
       - name: Install dependencies
         run: npm ci
       - run: npm run build --if-present
