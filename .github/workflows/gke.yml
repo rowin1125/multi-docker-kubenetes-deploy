@@ -9,7 +9,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: multi-cluster    # TODO: update to cluster name
   GKE_ZONE: europe-west4-a	   # TODO: update to cluster zone
-  SHA: ${{GITHUB_SHA}}
+  SHA: ${ GITHUB_SHA }
 
 jobs:
   unit-test:
@@ -53,7 +53,7 @@ jobs:
     - name: Deploy
       run: |-
         kubectl apply -f k8s/
-        kubectl set image deployments/server-deployment server=rowin1125/multi-server:${{ GITHUB_SHA }}
-        kubectl set image deployments/client-deployment client=rowin1125/multi-client:${{ GITHUB_SHA }}
-        kubectl set image deployments/worker-deployment worker=rowin1125/multi-worker:${{ GITHUB_SHA }}
+        kubectl set image deployments/server-deployment server=rowin1125/multi-server:${ GITHUB_SHA }
+        kubectl set image deployments/client-deployment client=rowin1125/multi-client:${ GITHUB_SHA }
+        kubectl set image deployments/worker-deployment worker=rowin1125/multi-worker:${ GITHUB_SHA }
         kubectl get services -o wide
