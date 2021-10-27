@@ -33,5 +33,5 @@ jobs:
     - name: Deploy
       run: |-
         kubectl apply -f k8s
-        kubectl rollout status -f k8s
+        kubectl rollout status
         kubectl get services -o wide
