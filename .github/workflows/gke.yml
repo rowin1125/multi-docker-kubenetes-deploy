@@ -32,6 +32,5 @@ jobs:
     # Deploy sample image to the GKE cluster
     - name: Deploy
       run: |-
-        kubectl apply -f k8s
-        kubectl rollout status
+        kubectl apply -f k8s/
         kubectl get services -o wide
