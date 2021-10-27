@@ -9,7 +9,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: multi-cluster    # TODO: update to cluster name
   GKE_ZONE: europe-west4-a	   # TODO: update to cluster zone
-  # DEPLOYMENT_NAME: gke-hello-app # TODO: update deployment name if changed in deployment.yaml
+  SHA: ${{GITHUB_SHA}}
 
 jobs:
   unit-test:
@@ -21,8 +21,19 @@ jobs:
     - name: Run tests
       run: docker run -e CI=true rowin1125/react-test npm test
 
+  publish-to-hub:
+    name: Publish to dockerhub
+    runs-on: ubuntu-latest
+    needs: unit-test
+
+    steps:
+    - name: Running deploy script
+      run:  ./.github/publish-images.sh
+
+
   setup-and-deploy:
-    name: Setup and Deploy
+    needs: publish-to-hub
+    name: Setup and Deploy to k8s
     runs-on: ubuntu-latest
 
     steps:
@@ -42,4 +53,7 @@ jobs:
     - name: Deploy
       run: |-
         kubectl apply -f k8s/
+        kubectl set image deployments/server-deployment server=rowin1125/multi-server:${{ GITHUB_SHA }}
+        kubectl set image deployments/client-deployment client=rowin1125/multi-client:${{ GITHUB_SHA }}
+        kubectl set image deployments/worker-deployment worker=rowin1125/multi-worker:${{ GITHUB_SHA }}
         kubectl get services -o wide
