@@ -1,9 +1,11 @@
 name: Deploy React app to GKE
 
 on:
-  push:
-    branches:
-    - main
+  workflow_run:
+    workflows: ["Frontend unit tests"]
+    branches: [main]
+    types:
+      - completed
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
@@ -13,15 +15,17 @@ env:
 
 jobs:
   unit-test:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: build dockerfile
+    - name: Build dockerfile
       run: docker build -t rowin1125/react-test -f ./client/Dockerfile.dev ./client
     - name: Run tests
       run: docker run -e CI=true rowin1125/react-test npm test
 
   publish-to-hub:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Publish to dockerhub
     runs-on: ubuntu-latest
     needs: unit-test
@@ -50,6 +54,7 @@ jobs:
 
 
   setup-and-deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     needs: publish-to-hub
     name: Setup and Deploy to k8s
     runs-on: ubuntu-latest
