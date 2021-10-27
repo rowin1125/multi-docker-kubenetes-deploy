@@ -14,16 +14,6 @@ env:
   SHA: ${ GITHUB_SHA:10 }
 
 jobs:
-  unit-test:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build dockerfile
-      run: docker build -t rowin1125/react-test -f ./client/Dockerfile.dev ./client
-    - name: Run tests
-      run: docker run -e CI=true rowin1125/react-test npm test
-
   publish-to-hub:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Publish to dockerhub
