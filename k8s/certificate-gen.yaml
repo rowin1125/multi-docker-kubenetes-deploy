@@ -5,8 +5,9 @@ metadata:
 spec:
   secretName: kostenspot-nl
   issuerRef:
-    name: let-me-sencrypt-prod
+    name: let-me-encrypt-prod
     kind: ClusterIssuer
   commonName: kostenspot.nl
   dnsNames:
     - kostenspot.nl
+    - www.kostenspot.nl
