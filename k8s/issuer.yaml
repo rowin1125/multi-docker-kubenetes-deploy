@@ -7,7 +7,7 @@ spec:
     server: https://acme-v02.api.letsencrypt.org/directory
     email: "rowin@derow.nl"
     privateKeySecretRef:
-      name: letsencrypt-prod
+      name: let-me-sencrypt-prod
     solvers:
       - http01:
           ingress:
